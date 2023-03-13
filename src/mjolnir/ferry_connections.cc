@@ -54,6 +54,9 @@ uint32_t ShortestPath(const uint32_t start_node_idx,
     return shape;
   };
 
+  // TODO: if the ferry connection edge has a destonly attribute set, then disregard
+  // any destonly edges when reclassifying edges around the ferry.
+
   // total edge count for all reclassified paths
   // and determine for how many modes we need to ensure access (hint: only the ones using hierarchies)
   uint32_t edge_count = 0;
@@ -164,6 +167,8 @@ uint32_t ShortestPath(const uint32_t start_node_idx,
 
         // Get cost - need the length and speed of the edge; Use a penalty if an edge is
         // destination_only and calculate it in the cost
+        // TODO: don't do that anymore if we disregard destonly in the case where
+        // a ferry connection edge is destonly, it'll end up upclassing weird service roads
         float penalty = w.destination_only() ? 300 : 0;
         auto shape = EdgeShape(edge.llindex_, edge.attributes.llcount);
         float cost = current_cost + ((valhalla::midgard::length(shape) * 3.6f) / w.speed()) + penalty;
