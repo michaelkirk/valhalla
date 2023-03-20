@@ -1,14 +1,5 @@
 name: Publish Docker image
-on:
-  push:
-    branches:
-      - '*'
-    tags:
-      - '*'
-    paths-ignore:
-      - '.gitignore'
-      - '**.md'
-      - 'test/'
+on: [pull_request]
 
 jobs:
   publish:
@@ -45,7 +36,6 @@ jobs:
             ghcr.io/valhalla/valhalla:${{ steps.extract_branch.outputs.branch }}
       - name: Build latest image
         uses: docker/build-push-action@v4
-        if: github.ref == 'refs/heads/nn-remove-dockerhub'
         with:
           push: false
           tags: |
