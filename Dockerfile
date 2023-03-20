@@ -14,7 +14,7 @@ COPY ./scripts/install-linux-deps.sh /usr/local/src/valhalla/scripts/install-lin
 RUN bash /usr/local/src/valhalla/scripts/install-linux-deps.sh
 
 # get the code into the right place and prepare to build it
-COPY . .
+COPY . /usr/local/src/valhalla
 RUN ls -la
 COPY .git .
 RUN ls -la
